@@ -26,3 +26,11 @@ body {
 /*
  * Additional CSS can be defined below or in other CSS files, as per instructions
  */
+
+main.container {
+  width: 450px;
+  margin: 0 auto;
+  margin-top: 80px;
+  padding: 2px 10px;
+  background-color: #fff;
+}
