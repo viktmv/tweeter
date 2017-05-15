@@ -43,6 +43,7 @@ main.container {
   width: 90%;
 }
 .tweet {
+  margin-bottom: 20px;
   border: 1px solid #999;
   border-radius: 7px;
   overflow: hidden;
