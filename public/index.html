@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css">
     <link rel="stylesheet" href="/styles/nav.css" type="text/css">
     <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css">
+    <link rel="stylesheet" href="/styles/tweets.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700" rel="stylesheet">
     <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
@@ -28,16 +29,27 @@
           <span class="counter">140</span>
         </form>
       </section>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae nulla eget odio luctus sollicitudin. Phasellus sodales suscipit nulla vitae commodo. Pellentesque ac interdum velit. Morbi congue dolor ante, sit amet pretium ligula condimentum nec. Sed congue sapien ac nulla egestas tristique. Sed molestie in lacus eu maximus. Proin sodales bibendum neque, ac congue ligula. Proin vehicula eros vitae odio imperdiet, at porta elit tempus. In egestas pretium condimentum. Cras scelerisque dolor non justo porta laoreet. Nam nulla tortor, aliquet quis magna ac, bibendum porta odio. Quisque nec pulvinar nunc, quis ullamcorper urna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lectus turpis, luctus et sagittis et, dignissim at neque. Cras ac lacus et nisi porta feugiat a eget sem. Proin lobortis consequat odio, at volutpat diam commodo id.
-      </p>
-      <p>Duis vel nisl libero. Nulla pulvinar, mauris vel condimentum sagittis, risus magna mattis lectus, vel laoreet erat purus vitae elit. Morbi sodales consectetur magna a ultrices. Aliquam erat volutpat. Fusce nulla quam, iaculis id neque id, facilisis gravida mi. Aliquam at hendrerit nisl. Donec id urna mi. Pellentesque et tempus est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-      </p>
-      <p>Duis id ex fringilla, iaculis odio nec, dictum risus. Nullam consequat pretium risus, in posuere lacus lacinia id. Nullam viverra iaculis euismod. Fusce pellentesque luctus maximus. Sed faucibus imperdiet enim, vitae dictum libero scelerisque ornare. Nullam et justo vel augue faucibus suscipit. Donec dolor lorem, viverra eu mauris vel, egestas aliquam elit. Vestibulum sed sem consectetur elit consectetur blandit. Sed nec odio ipsum. Sed cursus quam arcu, ut fermentum justo convallis in. Phasellus accumsan gravida mi, at gravida massa volutpat eu. Etiam a nisi ut neque rutrum posuere id quis libero. Nulla condimentum bibendum lectus vitae tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec quis vehicula diam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-      </p>
-      <p>Etiam sed volutpat felis. Fusce nunc magna, hendrerit id sollicitudin a, tempor non tellus. Nunc congue feugiat pellentesque. Quisque non tempor tortor, eu dictum lorem. Proin vulputate ac dui sed blandit. Morbi a blandit tellus. Etiam sit amet imperdiet ligula. Proin tempor eleifend vestibulum. Sed suscipit odio sit amet fringilla varius. Etiam sodales ipsum ac mi efficitur, dictum ultricies mi posuere. Donec risus risus, tincidunt vel blandit non, facilisis in eros. Maecenas pharetra feugiat magna, sit amet luctus lectus gravida ut.
-      </p>
-      <p>Pellentesque bibendum et nisl et porttitor. Duis lobortis turpis a est mattis, a ultricies elit pellentesque. Praesent tristique nibh tellus, euismod tincidunt quam ornare eget. Donec mattis a elit luctus molestie. Nulla consectetur, libero sed iaculis accumsan, sapien ligula consequat leo, eu interdum urna urna quis tellus. Donec fermentum mauris turpis, accumsan imperdiet nisi vulputate laoreet. Morbi sagittis bibendum congue. Nunc sit amet porttitor mi. Proin lectus arcu, luctus eget mauris eu, mollis tincidunt nisi. Maecenas vulputate neque libero, vel ultrices erat fringilla in. Sed elementum auctor rutrum. Nulla at risus sapien. Pellentesque vulputate tempor convallis.
-      </p>
+      <section class="tweets">
+        <article class="tweet">
+          <header>
+            <img class="avatar" src="/images/1-freepik.jpg">
+            <span class="user-name">Name</span>
+            <span class="handle">@Handle</span>
+          </header>
+          <main class="tweet-text">Lorem ipsum.</main>
+          <footer>10 days ago</footer>
+        </article>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae nulla eget odio luctus sollicitudin. Phasellus sodales suscipit nulla vitae commodo. Pellentesque ac interdum velit. Morbi congue dolor ante, sit amet pretium ligula condimentum nec. Sed congue sapien ac nulla egestas tristique. Sed molestie in lacus eu maximus. Proin sodales bibendum neque, ac congue ligula. Proin vehicula eros vitae odio imperdiet, at porta elit tempus. In egestas pretium condimentum. Cras scelerisque dolor non justo porta laoreet. Nam nulla tortor, aliquet quis magna ac, bibendum porta odio. Quisque nec pulvinar nunc, quis ullamcorper urna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse lectus turpis, luctus et sagittis et, dignissim at neque. Cras ac lacus et nisi porta feugiat a eget sem. Proin lobortis consequat odio, at volutpat diam commodo id.
+        </p>
+        <p>Duis vel nisl libero. Nulla pulvinar, mauris vel condimentum sagittis, risus magna mattis lectus, vel laoreet erat purus vitae elit. Morbi sodales consectetur magna a ultrices. Aliquam erat volutpat. Fusce nulla quam, iaculis id neque id, facilisis gravida mi. Aliquam at hendrerit nisl. Donec id urna mi. Pellentesque et tempus est. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+        </p>
+        <p>Duis id ex fringilla, iaculis odio nec, dictum risus. Nullam consequat pretium risus, in posuere lacus lacinia id. Nullam viverra iaculis euismod. Fusce pellentesque luctus maximus. Sed faucibus imperdiet enim, vitae dictum libero scelerisque ornare. Nullam et justo vel augue faucibus suscipit. Donec dolor lorem, viverra eu mauris vel, egestas aliquam elit. Vestibulum sed sem consectetur elit consectetur blandit. Sed nec odio ipsum. Sed cursus quam arcu, ut fermentum justo convallis in. Phasellus accumsan gravida mi, at gravida massa volutpat eu. Etiam a nisi ut neque rutrum posuere id quis libero. Nulla condimentum bibendum lectus vitae tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec quis vehicula diam. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+        </p>
+        <p>Etiam sed volutpat felis. Fusce nunc magna, hendrerit id sollicitudin a, tempor non tellus. Nunc congue feugiat pellentesque. Quisque non tempor tortor, eu dictum lorem. Proin vulputate ac dui sed blandit. Morbi a blandit tellus. Etiam sit amet imperdiet ligula. Proin tempor eleifend vestibulum. Sed suscipit odio sit amet fringilla varius. Etiam sodales ipsum ac mi efficitur, dictum ultricies mi posuere. Donec risus risus, tincidunt vel blandit non, facilisis in eros. Maecenas pharetra feugiat magna, sit amet luctus lectus gravida ut.
+        </p>
+        <p>Pellentesque bibendum et nisl et porttitor. Duis lobortis turpis a est mattis, a ultricies elit pellentesque. Praesent tristique nibh tellus, euismod tincidunt quam ornare eget. Donec mattis a elit luctus molestie. Nulla consectetur, libero sed iaculis accumsan, sapien ligula consequat leo, eu interdum urna urna quis tellus. Donec fermentum mauris turpis, accumsan imperdiet nisi vulputate laoreet. Morbi sagittis bibendum congue. Nunc sit amet porttitor mi. Proin lectus arcu, luctus eget mauris eu, mollis tincidunt nisi. Maecenas vulputate neque libero, vel ultrices erat fringilla in. Sed elementum auctor rutrum. Nulla at risus sapien. Pellentesque vulputate tempor convallis.
+        </p>
+    </section>
     </main>
 
   </body>

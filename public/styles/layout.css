@@ -34,3 +34,50 @@ main.container {
   padding: 2px 10px;
   background-color: #fff;
 }
+
+
+/* Main Tweets Area And General Tweet Styles */
+.tweets {
+  margin: 0 auto;
+  width: 90%;
+}
+.tweet {
+  border: 1px solid #999;
+  border-radius: 7px;
+  overflow: hidden;
+  opacity: .7;
+}
+.tweet header {
+  padding: 7px 2px;
+  background-color: #bbb;
+  font-weight: 700;
+}
+.tweet .user-name {
+  margin-left: 5px;
+  font-size: 1.5em;
+}
+.tweet .handle {
+  float: right;
+  margin-right: 5px;
+  margin-top: 5px;
+  color: #555;
+  font-weight: 300;
+}
+.tweet .avatar {
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+.tweet .tweet-text {
+  padding: 15px 15px;
+  font-size: 1.2em;
+  line-height: 3em;
+}
+.tweet footer {
+  height: 10%;
+  border-top: 1px solid #eee;
+  padding: 15px 10px;
+  font-size: .8em;
+}
