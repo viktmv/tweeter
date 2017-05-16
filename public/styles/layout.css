@@ -31,15 +31,14 @@ main.container {
   width: 450px;
   margin: 0 auto;
   margin-top: 80px;
-  padding: 5px 10px;
-  padding-bottom: 20px;
+  padding: 10px 10px;
   background-color: #fff;
 }
 
 
 /* Main Tweets Area And General Tweet Styles */
 .tweets {
-  margin: 0 auto;
+  margin: 10px auto;
   width: 90%;
 }
 .tweet {

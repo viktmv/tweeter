@@ -133,6 +133,6 @@ $(function() {
 
   // Compose button
   $('.compose').on('click', () => {
-    $('.new-tweet').slideToggle()
+    $('.new-tweet').slideToggle(() => $('.new-tweet textarea').focus())
   })
 })

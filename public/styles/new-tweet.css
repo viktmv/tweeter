@@ -1,4 +1,5 @@
 .new-tweet {
+  display: none;
   margin: 25px 2em;
   background-color: #eee;
   overflow: hidden;
