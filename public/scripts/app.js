@@ -125,8 +125,14 @@ $(function() {
     }).done(loadTweets)
   })
 
+  // load tweets
   function loadTweets () {
     $.ajax('/tweets/').complete(data => renderTweets(data.responseJSON))
   }
   loadTweets()
+
+  // Compose button
+  $('.compose').on('click', () => {
+    $('.new-tweet').slideToggle()
+  })
 })

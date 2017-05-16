@@ -8,8 +8,11 @@
   color: #e8fdff;
   padding: 0 2em;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   z-index: 1;
+}
+#nav-bar .wrapper {
+  display: flex;
 }
 #nav-bar .logo {
   height: 80px;
@@ -19,4 +22,15 @@
 #nav-bar .header {
   align-self: center;
   font-size: 2em;
+}
+#nav-bar .compose {
+  margin: 0;
+  margin-right: 10px;
+  padding: 5px;
+  height: 50%;
+  font-size: 1em;
+  cursor: pointer;
+  align-self: center;
+  border-radius: 2px;
+  border: 1px solid #fff;
 }
