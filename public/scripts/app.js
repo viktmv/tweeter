@@ -63,26 +63,26 @@ $(function() {
     let tweetContainer = $('.tweets')
 
     for (let tweet of tweets) {
-      // console.log(tweet)
-      tweetContainer.append(createTweetElement(tweet))
+      tweetContainer.prepend(createTweetElement(tweet))
     }
   }
 
   function createTweetElement(tweet) {
     let $tweet = $('<article>').addClass('tweet');
     let $header = $('<header>')
+    let user = tweet.user
     appendTo($header, [
-      $('<img>').attr('src', tweet.user.avatars.regular).addClass('avatar'),
-      $('<span>').addClass('user-name').text(tweet.user.name),
-      $('<span>').addClass('handle').text(tweet.user.handle)
+      $('<img>').attr('src', user.avatars.regular).addClass('avatar'),
+      $('<span>').addClass('user-name').text(user.name),
+      $('<span>').addClass('handle').text(user.handle)
     ])
+
     let $main = $('<main>').addClass('tweet-text').text(tweet.content.text)
     let $footer = $('<footer>')
 
-    let date = new Date(tweet.created_at)
     let day = daysAgo(tweet.created_at)
-
     let $tweetAge = $('<div>').addClass('tweet-age').text(day)
+
     let $interactions = $('<div>').addClass('interactions')
 
     appendTo($interactions, [
@@ -104,15 +104,29 @@ $(function() {
 
   function daysAgo(date) {
     let pastDate = new Date(date)
-    let days = Math.round((Date.now() - pastDate)/(1000*60*60*24))
+    let days = Math.round((Date.now() - pastDate)/(1000 * 60 * 60 * 24))
 
     let stringDate = pastDate.toString().split(" ")
     let day = stringDate[0]
     let month = `${stringDate[1]}  ${stringDate[2]}`
     let year = stringDate[3]
 
-    return days < 30 ? `${days} ago` : `${day} ${month}, ${year}`
+    return days < 30 ? `${days} days ago` : `${day} ${month}, ${year}`
   }
 
-  renderTweets(data);
+  // renderTweets(data)
+
+  $('.new-tweet form').on('submit', function(e) {
+    e.preventDefault()
+    let tweetText = $(this).serialize()
+    $.ajax('/tweets/', {
+      data: tweetText,
+      method: 'POST'
+    }).done(loadTweets)
+  })
+
+  function loadTweets () {
+    $.ajax('/tweets/').complete(data => renderTweets(data.responseJSON))
+  }
+  loadTweets()
 })
