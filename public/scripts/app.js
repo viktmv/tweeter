@@ -58,13 +58,12 @@ $(function() {
   'use strict'
 
   function renderTweets(tweets) {
-    // loops through tweets
-    // TODO: implement this using document fragment
     let tweetContainer = $('.tweets')
-
+    let elems = []
     for (let tweet of tweets) {
-      tweetContainer.prepend(createTweetElement(tweet))
+      elems.unshift(createTweetElement(tweet))
     }
+    tweetContainer.append(elems)
   }
 
   function createTweetElement(tweet) {
@@ -122,14 +121,19 @@ $(function() {
     $.ajax('/tweets/', {
       data: tweetText,
       method: 'POST'
-    }).done(loadTweets)
+    }).done(() => {
+      loadTweets().complete(data => {
+        let list = data.responseJSON
+        $('.tweets').prepend(createTweetElement(list[list.length - 1]))
+      })
+    })
   })
 
   // load tweets
   function loadTweets () {
-    $.ajax('/tweets/').complete(data => renderTweets(data.responseJSON))
+    return $.ajax('/tweets/')
   }
-  loadTweets()
+  loadTweets().complete(data => renderTweets(data.responseJSON))
 
   // Compose button
   $('.compose').on('click', () => {
