@@ -14,6 +14,9 @@
   height: 50px;
   padding: 1px 4px;
 }
+.new-tweet input {
+  line-height: 1.4em;
+}
 .new-tweet .counter {
   display: block;
   float: right;

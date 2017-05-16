@@ -63,7 +63,7 @@ $(function() {
     let tweetContainer = $('.tweets')
 
     for (let tweet of tweets) {
-      console.log(tweet)
+      // console.log(tweet)
       tweetContainer.append(createTweetElement(tweet))
     }
   }
@@ -80,7 +80,7 @@ $(function() {
     let $footer = $('<footer>')
 
     let date = new Date(tweet.created_at)
-    let day = date.getDay()
+    let day = daysAgo(tweet.created_at)
 
     let $tweetAge = $('<div>').addClass('tweet-age').text(day)
     let $interactions = $('<div>').addClass('interactions')
@@ -97,12 +97,22 @@ $(function() {
     return $tweet;
   }
 
+  // Helpers
   function appendTo(el, elems) {
-
-    return elems.forEach(elem => {
-      el.append(elem)
-      console.log('element appended:', el)
-    })
+    return elems.forEach(elem => el.append(elem))
   }
+
+  function daysAgo(date) {
+    let pastDate = new Date(date)
+    let days = Math.round((Date.now() - pastDate)/(1000*60*60*24))
+
+    let stringDate = pastDate.toString().split(" ")
+    let day = stringDate[0]
+    let month = `${stringDate[1]}  ${stringDate[2]}`
+    let year = stringDate[3]
+
+    return days < 30 ? `${days} ago` : `${day} ${month}, ${year}`
+  }
+
   renderTweets(data);
 })
