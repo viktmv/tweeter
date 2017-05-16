@@ -28,7 +28,9 @@
   font-style: italic;
 }
 .new-tweet .notice {
+  opacity: 0;
   margin-left: 15px;
   font-size: .9em;
   font-style: italic;
+  transition: opacity 1s;
 }
