@@ -69,7 +69,7 @@ $(function() {
   function createTweetElement(tweet) {
     let $tweet = $('<article>').addClass('tweet');
     let $header = $('<header>')
-    let user = tweet.user
+    let {user} = tweet
     appendTo($header, [
       $('<img>').attr('src', user.avatars.regular).addClass('avatar'),
       $('<span>').addClass('user-name').text(user.name),
@@ -113,10 +113,10 @@ $(function() {
     return days < 30 ? `${days} days ago` : `${day} ${month}, ${year}`
   }
 
-  // renderTweets(data)
-
+  // Send tweet and render it on the page
   $('.new-tweet form').on('submit', function(e) {
     e.preventDefault()
+
     let tweetText = $(this).serialize()
     $.ajax('/tweets/', {
       data: tweetText,
@@ -133,10 +133,26 @@ $(function() {
   function loadTweets () {
     return $.ajax('/tweets/')
   }
+
+  // Initial render
   loadTweets().complete(data => renderTweets(data.responseJSON))
 
   // Compose button
   $('.compose').on('click', () => {
     $('.new-tweet').slideToggle(() => $('.new-tweet textarea').focus())
   })
+
+  // Form validation
+  $('.new-tweet input').click(e => {
+    let $textarea = $('.new-tweet textarea')
+    if ($textarea.val().length > 140) {
+      e.preventDefault()
+      $('.notice').text('Sorry, your tweet is way too long')
+    }
+    else if ($textarea.val() == 0) {
+      e.preventDefault()
+      $('.notice').text('Nothing is not twittable, sorry.')
+    }
+  })
+
 })
