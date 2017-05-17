@@ -123,6 +123,7 @@ $(function() {
       method: 'POST'
     }).done(() => {
       loadTweets().complete(data => {
+        $('.new-tweet textarea').val('').focus()
         let list = data.responseJSON
         $('.tweets').prepend(createTweetElement(list[list.length - 1]))
       })
@@ -154,5 +155,4 @@ $(function() {
       $('.notice').text('Nothing is not twittable, sorry.').css('opacity', '1')
     }
   })
-
 })

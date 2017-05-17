@@ -75,6 +75,7 @@ main.container {
   padding: 15px 15px;
   font-size: 1.2em;
   line-height: 3em;
+   word-break: normal;
 }
 .tweet footer {
   height: 10%;
