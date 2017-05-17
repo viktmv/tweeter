@@ -1,13 +1,7 @@
-/*
- * Client-side JS logic goes here
- * jQuery is already loaded
- * Reminder: Use (and do all your DOM work in) jQuery's document ready function
- */
-
-$(function() {
+$(function () {
   'use strict'
 
-  function renderTweets(tweets) {
+  function renderTweets (tweets) {
     let tweetContainer = $('.tweets')
     let elems = []
     for (let tweet of tweets) {
@@ -16,8 +10,8 @@ $(function() {
     tweetContainer.append(elems)
   }
 
-  function createTweetElement(tweet) {
-    let $tweet = $('<article>').addClass('tweet');
+  function createTweetElement (tweet) {
+    let $tweet = $('<article>').addClass('tweet')
     let $header = $('<header>')
     let {user} = tweet
     appendTo($header, [
@@ -35,7 +29,7 @@ $(function() {
     let $interactions = $('<div>').addClass('interactions')
 
     appendTo($interactions, [
-      $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦' ),
+      $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦'),
       $('<button>').attr('type', 'button').addClass('retweet').text('♻️'),
       $('<button>').attr('type', 'button').addClass('like').text('♥️')
     ])
@@ -43,19 +37,19 @@ $(function() {
     appendTo($footer, [$tweetAge, $interactions])
     appendTo($tweet, [$header, $main, $footer])
 
-    return $tweet;
+    return $tweet
   }
 
   // Helpers
-  function appendTo(el, elems) {
+  function appendTo (el, elems) {
     return elems.forEach(elem => el.append(elem))
   }
 
-  function daysAgo(date) {
+  function daysAgo (date) {
     let pastDate = new Date(date)
-    let days = Math.round((Date.now() - pastDate)/(1000 * 60 * 60 * 24))
+    let days = Math.round((Date.now() - pastDate) / (1000 * 60 * 60 * 24))
 
-    let stringDate = pastDate.toString().split(" ")
+    let stringDate = pastDate.toString().split(' ')
     let day = stringDate[0]
     let month = `${stringDate[1]}  ${stringDate[2]}`
     let year = stringDate[3]
@@ -64,7 +58,7 @@ $(function() {
   }
 
   // Send tweet and render it on the page
-  $('.new-tweet form').on('submit', function(e) {
+  $('.new-tweet form').on('submit', function (e) {
     e.preventDefault()
 
     let tweetText = $(this).serialize()
@@ -99,8 +93,7 @@ $(function() {
     if ($textarea.val().length > 140) {
       e.preventDefault()
       $('.notice').text('Sorry, your tweet is way too long').css('opacity', '1')
-    }
-    else if ($textarea.val() == 0) {
+    } else if ($textarea.val() == 0) {
       e.preventDefault()
       $('.notice').text('Nothing is not twittable, sorry.').css('opacity', '1')
     }
