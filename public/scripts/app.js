@@ -47,14 +47,35 @@ $(function () {
 
   function daysAgo (date) {
     let pastDate = new Date(date)
-    let days = Math.round((Date.now() - pastDate) / (1000 * 60 * 60 * 24))
+    let now = Date.now()
+
+    let days = Math.round((now - pastDate) / (1000 * 60 * 60 * 24))
+      , minutesNow = Math.round(now / (1000 * 60))
+      , minutesPast = Math.round(pastDate / (1000 * 60))
+      , hoursNow = Math.round(now / (1000 * 60 * 60))
+      , hoursPast = Math.round(pastDate / (1000 * 60 * 60))
 
     let stringDate = pastDate.toString().split(' ')
-    let day = stringDate[0]
-    let month = `${stringDate[1]}  ${stringDate[2]}`
-    let year = stringDate[3]
+      , day = stringDate[0]
+      , month = `${stringDate[1]}  ${stringDate[2]}`
+      , year = stringDate[3]
 
-    return days < 30 ? `${days} days ago` : `${day} ${month}, ${year}`
+    let time
+      , minDiff = minutesNow - minutesPast
+      , hourDiff = hoursNow - hoursPast
+
+    if (minDiff < 60) {
+      time = minDiff === 1 ? `${minDiff} minute ago` : `${minDiff} minutes ago`
+    }
+    else if (hourDiff < 60) {
+      time = hourDiff  === 1 ? `${hourDiff } hour ago` : `${hourDiff } hours ago`
+    }
+    else if (days < 30) {
+      time = days === 1 ? `${days} day ago` : `${days} days ago`
+    }
+    else time = `${day} ${month}, ${year}`
+
+    return time
   }
 
   // Send tweet and render it on the page
