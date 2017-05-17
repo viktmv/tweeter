@@ -14,11 +14,11 @@ $(function () {
     let $tweet = $('<article>').addClass('tweet')
     let $header = $('<header>')
     let {user} = tweet
-    appendTo($header, [
+    $header.append(
       $('<img>').attr('src', user.avatars.regular).addClass('avatar'),
       $('<span>').addClass('user-name').text(user.name),
       $('<span>').addClass('handle').text(user.handle)
-    ])
+    )
 
     let $main = $('<main>').addClass('tweet-text').text(tweet.content.text)
     let $footer = $('<footer>')
@@ -28,14 +28,14 @@ $(function () {
 
     let $interactions = $('<div>').addClass('interactions')
 
-    appendTo($interactions, [
+    $interactions.append(
       $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦'),
       $('<button>').attr('type', 'button').addClass('retweet').text('♻️'),
       $('<button>').attr('type', 'button').addClass('like').text('♥️')
-    ])
+    )
 
-    appendTo($footer, [$tweetAge, $interactions])
-    appendTo($tweet, [$header, $main, $footer])
+    $footer.append($tweetAge, $interactions)
+    $tweet.append($header, $main, $footer)
 
     return $tweet
   }
