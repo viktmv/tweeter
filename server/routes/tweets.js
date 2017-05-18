@@ -7,12 +7,14 @@ const userHelper = require('../lib/util/user-helper')
 module.exports = function (DataHelpers) {
 
   tweetsRoutes.post('/:id/like', function (req, res) {
-    DataHelpers.likeTweet(req.body.tweetID,
+    console.log(req.body.tweetID)
+    console.log(req.session)
+    DataHelpers.likeTweet({ id: req.body.tweetID, user: req.session.userID },
       () => console.log('Counter incremented'))
   })
 
   tweetsRoutes.delete('/:id/like', function (req, res) {
-    DataHelpers.dislikeTweet(req.body.tweetID,
+    DataHelpers.dislikeTweet({ id: req.body.tweetID, user: req.session.userID },
       () => console.log('Counter decremented'))
   })
 
