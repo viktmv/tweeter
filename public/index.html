@@ -12,12 +12,27 @@
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
   </head>
   <body>
+    <section class="login-popup">
+      <div>
+      </div>
+      <section>
+        <form>
+          <!-- <input class="login-name" name="name"> -->
+          <input class="login-handle" name="handle">
+          <!-- <input class="pass" type="password"> -->
+          <button>Login</button>
+        </form>
+      </section>
+    </section>
     <nav id="nav-bar">
       <div class="wrapper">
         <img class="logo" src="/images/bird.png">
         <span class="header">Tweeter</span>
       </div>
-      <button class="compose" type="button">Compose</button>
+      <div class="session-control">
+        <button class="login-btn" type="button">Login</button>
+        <button class="compose" type="button">Compose</button>
+      </div>
     </nav>
     <main class="container">
       <section class="new-tweet">

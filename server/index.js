@@ -5,6 +5,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 
+const cookieSession = require('cookie-session')
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
 const {MongoClient} = require('mongodb')
 const MONGODB_URI = 'mongodb://localhost:27017/tweets'
 

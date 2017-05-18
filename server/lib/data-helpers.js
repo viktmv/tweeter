@@ -41,13 +41,21 @@ module.exports = function makeDataHelpers (db) {
         { $inc: {counter: -1 } }
       , callback)
     },
-    
+
     saveUser: function(user, callback) {
       db.collection('users').insertOne(user)
     },
 
     updateUser: function(user, params, callback) {
 
+    },
+
+    getUser: function(handle, callback) {
+       db.collection('users').find({ handle: handle })
+       .toArray((err, res) => {
+         if (err) return console.error(err)
+         callback(null, res[0])
+       })
     }
   }
 }

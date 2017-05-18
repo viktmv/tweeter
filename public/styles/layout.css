@@ -37,6 +37,12 @@ main.container {
 
 
 /* Main Tweets Area And General Tweet Styles */
+.login-popup {
+  width: 40%;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 100px;
+}
 .tweets {
   margin: 10px auto;
   width: 90%;

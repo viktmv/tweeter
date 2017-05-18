@@ -148,8 +148,23 @@ $(function () {
             tweetID: id
           }
         })
-
       }
     })
   }
+
+  function login() {
+    $('.login-popup form').on('submit', function (e) {
+      e.preventDefault()
+
+      let data = $(this).serialize()
+
+      $.ajax('/tweets/login', {
+        data: data,
+        method: 'POST'
+      }).done(() => {
+        console.log("login request sent")
+      })
+    })
+  }
+  login()
 })
