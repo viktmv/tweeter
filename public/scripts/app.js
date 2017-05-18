@@ -36,6 +36,7 @@ $(function () {
       $('<button>').attr('type', 'button')
         .addClass('like')
         .attr('style', 'background-image: url("../images/like-inactive.svg");')
+        .attr('data-id', tweet.id)
         .attr('data-type', 'inactive')
     )
 
@@ -124,13 +125,30 @@ $(function () {
   function toggleLikes () {
     $('.like').on('click', function(e) {
       let like = $(this)
+      let id = like.data('id')
+
       if (like.data('type') === 'active') {
         like.attr('style', 'background-image: url("../images/like-inactive.svg");')
         like.data('type','inactive')
+
+        $.ajax(`/tweets/${id}/like`, {
+          method: 'DELETE',
+          data: {
+            tweetID: id
+          }
+        })
       }
       else {
         like.attr('style', 'background-image: url("../images/like-active.svg");')
         like.data('type', 'active')
+
+        $.ajax(`/tweets/${id}/like`, {
+          method: 'POST',
+          data: {
+            tweetID: id
+          }
+        })
+
       }
     })
   }

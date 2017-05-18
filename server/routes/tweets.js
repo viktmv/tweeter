@@ -5,6 +5,17 @@ const tweetsRoutes = express.Router()
 const userHelper = require('../lib/util/user-helper')
 
 module.exports = function (DataHelpers) {
+
+  tweetsRoutes.post('/:id/like', function (req, res) {
+    DataHelpers.likeTweet(req.body.tweetID,
+      () => console.log('Counter incremented'))
+  })
+
+  tweetsRoutes.delete('/:id/like', function (req, res) {
+    DataHelpers.dislikeTweet(req.body.tweetID,
+      () => console.log('Counter decremented'))
+  })
+
   tweetsRoutes.get('/', function (req, res) {
     DataHelpers.getTweets((err, tweets) => {
       if (err) {
@@ -21,13 +32,20 @@ module.exports = function (DataHelpers) {
       return
     }
 
+    const generateRandomString = () => Math.random().toString(36).substring(2, 8)
+
     const user = req.body.user ? req.body.user : userHelper.generateRandomUser()
+
+    DataHelpers.saveUser(user)
+    
     const tweet = {
+      id: generateRandomString(),
       user: user,
       content: {
         text: req.body.text
       },
-      created_at: Date.now()
+      created_at: Date.now(),
+      counter: 0
     }
 
     DataHelpers.saveTweet(tweet, (err) => {
@@ -37,6 +55,7 @@ module.exports = function (DataHelpers) {
         res.status(201).send()
       }
     })
+
   })
 
   return tweetsRoutes

@@ -26,6 +26,28 @@ module.exports = function makeDataHelpers (db) {
         const sortNewestFirst = (a, b) => a.created_at - b.created_at
         callback(null, res.sort(sortNewestFirst))
       })
+    },
+
+    likeTweet: function (tweetID, callback) {
+      db.collection('tweets').updateOne(
+        { id: tweetID },
+        { $inc: {counter: 1 } }
+      , callback)
+    },
+
+    dislikeTweet: function (tweetID, callback) {
+      db.collection('tweets').updateOne(
+        { id: tweetID },
+        { $inc: {counter: -1 } }
+      , callback)
+    },
+    
+    saveUser: function(user, callback) {
+      db.collection('users').insertOne(user)
+    },
+
+    updateUser: function(user, params, callback) {
+
     }
   }
 }
