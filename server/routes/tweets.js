@@ -23,7 +23,12 @@ module.exports = function (DataHelpers) {
       if (err) {
         res.status(500).json({ error: err.message })
       } else {
-        res.json(tweets)
+        req.session.userID
+        ? DataHelpers.getUser(req.session.userID, (err, user) => {
+            if (!user) return console.log('some shit happend')
+            res.send({tweets, user})
+          })
+        : res.send({tweets: tweets, user: null})
       }
     })
   })

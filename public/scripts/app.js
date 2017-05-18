@@ -5,15 +5,13 @@ $(function () {
     let tweetContainer = $('.tweets')
     let elems = []
     for (let tweet of tweets) {
-      console.log(tweet.id)
-      console.log(likes)
       likes.find((t) => t == tweet.id)
         ? elems.unshift(createTweetElement(tweet, true))
         : elems.unshift(createTweetElement(tweet, false))
     }
     tweetContainer.append(elems)
 
-    toggleLikes()
+
   }
 
   function createTweetElement (tweet, liked) {
@@ -38,6 +36,7 @@ $(function () {
     let likeBtn = $('<button>').attr('type', 'button')
                 .addClass('like')
                 .attr('data-id', tweet.id)
+                .on('click', toggleLike)
 
     liked ? likeBtn.attr('data-type', 'active').attr('style', 'background-image: url("../images/like-active.svg");')
           : likeBtn.attr('data-type', 'inactive').attr('style', 'background-image: url("../images/like-inactive.svg");')
@@ -101,7 +100,7 @@ $(function () {
         $('.new-tweet textarea').val('').focus()
         let list = data.responseJSON
         $('.tweets').prepend(createTweetElement(list[list.length - 1]))
-        toggleLikes()
+        // toggleLike()
       })
     })
   })
@@ -112,7 +111,10 @@ $(function () {
   }
 
   // Initial render
-  // loadTweets().complete(data => renderTweets(data.responseJSON))
+  loadTweets().complete(data => {
+    data = data.responseJSON
+    renderTweets(data.tweets, data.user.likes)
+  })
 
   // Compose button
   $('.compose').on('click', () => {
@@ -131,35 +133,34 @@ $(function () {
     }
   })
 
-  function toggleLikes () {
-    $('.like').on('click', function(e) {
-      let like = $(this)
-      let id = like.data('id')
+  function toggleLike(e) {
+    let like = $(this)
+    let id = like.data('id')
 
-      if (like.data('type') === 'active') {
-        like.attr('style', 'background-image: url("../images/like-inactive.svg");')
-        like.data('type','inactive')
+    if (like.data('type') === 'active') {
+      like.attr('style', 'background-image: url("../images/like-inactive.svg");')
+      like.data('type','inactive')
 
-        $.ajax(`/tweets/${id}/like`, {
-          method: 'DELETE',
-          data: {
-            tweetID: id
-          }
-        })
-      }
-      else {
-        like.attr('style', 'background-image: url("../images/like-active.svg");')
-        like.data('type', 'active')
+      $.ajax(`/tweets/${id}/like`, {
+        method: 'DELETE',
+        data: {
+          tweetID: id
+        }
+      })
+    }
+    else {
+      like.attr('style', 'background-image: url("../images/like-active.svg");')
+      like.data('type', 'active')
 
-        $.ajax(`/tweets/${id}/like`, {
-          method: 'POST',
-          data: {
-            tweetID: id
-          }
-        })
-      }
-    })
+      $.ajax(`/tweets/${id}/like`, {
+        method: 'POST',
+        data: {
+          tweetID: id
+        }
+      })
+    }
   }
+
 
   function login() {
     $('.login-popup form').on('submit', function (e) {
@@ -171,7 +172,7 @@ $(function () {
         data: data,
         method: 'POST'
       }).done((user) => {
-        loadTweets().complete(data => renderTweets(data.responseJSON, user.likes))
+        loadTweets().complete(data => renderTweets(data.responseJSON.tweets, data.responseJSON.user.likes))
       })
     })
   }
