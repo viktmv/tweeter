@@ -1,18 +1,23 @@
 $(function () {
   'use strict'
 
-  function renderTweets (tweets) {
+  function renderTweets (tweets, likes) {
     let tweetContainer = $('.tweets')
     let elems = []
     for (let tweet of tweets) {
-      elems.unshift(createTweetElement(tweet))
+      console.log(tweet.id)
+      console.log(likes)
+      likes.find((t) => t == tweet.id)
+        ? elems.unshift(createTweetElement(tweet, true))
+        : elems.unshift(createTweetElement(tweet, false))
     }
     tweetContainer.append(elems)
 
     toggleLikes()
   }
 
-  function createTweetElement (tweet) {
+  function createTweetElement (tweet, liked) {
+    console.log(liked)
     let $tweet = $('<article>').addClass('tweet')
     let $header = $('<header>')
     let {user} = tweet
@@ -30,14 +35,17 @@ $(function () {
 
     let $interactions = $('<div>').addClass('interactions')
 
+    let likeBtn = $('<button>').attr('type', 'button')
+                .addClass('like')
+                .attr('data-id', tweet.id)
+
+    liked ? likeBtn.attr('data-type', 'active').attr('style', 'background-image: url("../images/like-active.svg");')
+          : likeBtn.attr('data-type', 'inactive').attr('style', 'background-image: url("../images/like-inactive.svg");')
+
     $interactions.append(
       // $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦'),
       // $('<button>').attr('type', 'button').addClass('retweet').text('♻️'),
-      $('<button>').attr('type', 'button')
-        .addClass('like')
-        .attr('style', 'background-image: url("../images/like-inactive.svg");')
-        .attr('data-id', tweet.id)
-        .attr('data-type', 'inactive')
+      likeBtn
     )
 
     $footer.append($tweetAge, $interactions)
@@ -93,6 +101,7 @@ $(function () {
         $('.new-tweet textarea').val('').focus()
         let list = data.responseJSON
         $('.tweets').prepend(createTweetElement(list[list.length - 1]))
+        toggleLikes()
       })
     })
   })
@@ -103,7 +112,7 @@ $(function () {
   }
 
   // Initial render
-  loadTweets().complete(data => renderTweets(data.responseJSON))
+  // loadTweets().complete(data => renderTweets(data.responseJSON))
 
   // Compose button
   $('.compose').on('click', () => {
@@ -161,8 +170,8 @@ $(function () {
       $.ajax('/tweets/login', {
         data: data,
         method: 'POST'
-      }).done(() => {
-        console.log("login request sent")
+      }).done((user) => {
+        loadTweets().complete(data => renderTweets(data.responseJSON, user.likes))
       })
     })
   }

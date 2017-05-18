@@ -33,7 +33,7 @@ module.exports = function (DataHelpers) {
       if (!user) return res.status(403).send('No user found')
 
       req.session.userID = req.body.handle
-      res.sendStatus(200)
+      res.status(200).send(user)
     })
   })
 
