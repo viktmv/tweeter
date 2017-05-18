@@ -8,6 +8,8 @@ $(function () {
       elems.unshift(createTweetElement(tweet))
     }
     tweetContainer.append(elems)
+
+    toggleLikes()
   }
 
   function createTweetElement (tweet) {
@@ -29,9 +31,12 @@ $(function () {
     let $interactions = $('<div>').addClass('interactions')
 
     $interactions.append(
-      $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦'),
-      $('<button>').attr('type', 'button').addClass('retweet').text('♻️'),
-      $('<button>').attr('type', 'button').addClass('like').text('♥️')
+      // $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦'),
+      // $('<button>').attr('type', 'button').addClass('retweet').text('♻️'),
+      $('<button>').attr('type', 'button')
+        .addClass('like')
+        .attr('style', 'background-image: url("../images/like-inactive.svg");')
+        .attr('data-type', 'inactive')
     )
 
     $footer.append($tweetAge, $interactions)
@@ -115,4 +120,18 @@ $(function () {
       $('.notice').text('Nothing is not twittable, sorry.').css('opacity', '1')
     }
   })
+
+  function toggleLikes () {
+    $('.like').on('click', function(e) {
+      let like = $(this)
+      if (like.data('type') === 'active') {
+        like.attr('style', 'background-image: url("../images/like-inactive.svg");')
+        like.data('type','inactive')
+      }
+      else {
+        like.attr('style', 'background-image: url("../images/like-active.svg");')
+        like.data('type', 'active')
+      }
+    })
+  }
 })

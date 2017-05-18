@@ -92,6 +92,8 @@ main.container {
   line-height: 2em;
 }
 .tweet .interactions button {
+  width: 15px;
+  height: 15px;
   display: none;
   margin: 0;
   margin-left: 10px;
