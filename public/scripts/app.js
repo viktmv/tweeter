@@ -41,10 +41,6 @@ $(function () {
   }
 
   // Helpers
-  function appendTo (el, elems) {
-    return elems.forEach(elem => el.append(elem))
-  }
-
   function daysAgo (date) {
     let pastDate = new Date(date)
     let now = Date.now()
@@ -68,7 +64,7 @@ $(function () {
       time = minDiff === 1 ? `${minDiff} minute ago` : `${minDiff} minutes ago`
     }
     else if (hourDiff < 60) {
-      time = hourDiff  === 1 ? `${hourDiff } hour ago` : `${hourDiff } hours ago`
+      time = hourDiff === 1 ? `${hourDiff } hour ago` : `${hourDiff } hours ago`
     }
     else if (days < 30) {
       time = days === 1 ? `${days} day ago` : `${days} days ago`
