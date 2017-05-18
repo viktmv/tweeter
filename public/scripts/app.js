@@ -10,8 +10,6 @@ $(function () {
         : elems.unshift(createTweetElement(tweet, false))
     }
     tweetContainer.append(elems)
-
-
   }
 
   function createTweetElement (tweet, liked) {
@@ -54,6 +52,7 @@ $(function () {
   }
 
   // Handle the display of when the tweet was created
+  // TODO: separate in a separate module
   function daysAgo (date) {
     let pastDate = new Date(date)
     let now = Date.now()
@@ -98,7 +97,8 @@ $(function () {
     }).done(() => {
       loadTweets().complete(data => {
         $('.new-tweet textarea').val('').focus()
-        let list = data.responseJSON
+        console.log(data)
+        let list = data.responseJSON.tweets
         $('.tweets').prepend(createTweetElement(list[list.length - 1]))
         // toggleLike()
       })
@@ -168,7 +168,10 @@ $(function () {
     $('.login.popup form').on('submit', function (e) {
       e.preventDefault()
       // $('.login.popup button').prop('disabled', true)
-      let data = $(this).serialize()
+      let data = {
+        handle: $('.login-handle').val(),
+        pass: $('.login-pass').val()
+      }
 
       $.ajax('/tweets/login', {
         data: data,
@@ -193,5 +196,17 @@ $(function () {
     $.ajax(`/tweets/logout`, {
       method: 'POST'
     })
+  })
+
+  $('.register').on('submit', function(e) {
+    e.preventDefault()
+    console.log(e)
+     let data = {
+       name: $('.registration-name').val(),
+       handle: $('.registration-handle').val(),
+       pass: $('.registration-pass').val()
+     }
+     console.log(data)
+    $.post(`/tweets/register`, data)
   })
 })

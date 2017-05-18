@@ -57,6 +57,7 @@ module.exports = function makeDataHelpers (db) {
 
     saveUser: function(user, callback) {
       db.collection('users').insertOne(user)
+      // callback(null, true)
     },
 
     updateUser: function(user, params, callback) {
