@@ -40,7 +40,7 @@ $(function () {
     return $tweet
   }
 
-  // Helpers
+  // Handle the display of when the tweet was created
   function daysAgo (date) {
     let pastDate = new Date(date)
     let now = Date.now()
@@ -61,7 +61,7 @@ $(function () {
       , hourDiff = hoursNow - hoursPast
 
     if (minDiff < 60) {
-      time = minDiff === 1 ? `${minDiff} minute ago` : `${minDiff} minutes ago`
+      time = minDiff <= 1 ? `just now` : `${minDiff} minutes ago`
     }
     else if (hourDiff < 60) {
       time = hourDiff === 1 ? `${hourDiff } hour ago` : `${hourDiff } hours ago`
