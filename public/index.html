@@ -6,24 +6,13 @@
     <link rel="stylesheet" href="/styles/layout.css" type="text/css">
     <link rel="stylesheet" href="/styles/nav.css" type="text/css">
     <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css">
+    <link rel="stylesheet" href="/styles/session-controls.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700" rel="stylesheet">
     <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
   </head>
   <body>
-    <section class="login-popup">
-      <div>
-      </div>
-      <section>
-        <form>
-          <!-- <input class="login-name" name="name"> -->
-          <input class="login-handle" name="handle">
-          <!-- <input class="pass" type="password"> -->
-          <button>Login</button>
-        </form>
-      </section>
-    </section>
     <nav id="nav-bar">
       <div class="wrapper">
         <img class="logo" src="/images/bird.png">
@@ -31,8 +20,33 @@
       </div>
       <div class="session-control">
         <button class="login-btn" type="button">Login</button>
+        <button class="logout-btn" type="button">Logout</button>
+        <button class="reg-btn" type="button">Register</button>
         <button class="compose" type="button">Compose</button>
       </div>
+      <section class="login popup">
+        <div>
+        </div>
+        <section>
+          <form>
+            <input class="login-handle" name="handle" placeholder="hanlde">
+            <input class="pass" type="password" placeholder="password">
+            <button>Login</button>
+          </form>
+        </section>
+      </section>
+      <section class="registration popup">
+        <div>
+        </div>
+        <section>
+          <form>
+            <input class="registration-name" name="name" placeholder="name">
+            <input class="registration-handle" name="handle" placeholder="handle">
+            <input class="pass" type="password" placeholder="password">
+            <button>Registration</button>
+          </form>
+        </section>
+      </section>
     </nav>
     <main class="container">
       <section class="new-tweet">

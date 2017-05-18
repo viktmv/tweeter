@@ -113,7 +113,10 @@ $(function () {
   // Initial render
   loadTweets().complete(data => {
     data = data.responseJSON
-    renderTweets(data.tweets, data.user.likes)
+    console.log(data.user)
+    data.user === null
+     ? renderTweets(data.tweets, [])
+     : renderTweets(data.tweets, data.user.likes)
   })
 
   // Compose button
@@ -161,20 +164,34 @@ $(function () {
     }
   }
 
-
   function login() {
-    $('.login-popup form').on('submit', function (e) {
+    $('.login.popup form').on('submit', function (e) {
       e.preventDefault()
-
+      // $('.login.popup button').prop('disabled', true)
       let data = $(this).serialize()
 
       $.ajax('/tweets/login', {
         data: data,
         method: 'POST'
       }).done((user) => {
-        loadTweets().complete(data => renderTweets(data.responseJSON.tweets, data.responseJSON.user.likes))
+        loadTweets().complete(data => {
+          $('.tweets').text('')
+          renderTweets(data.responseJSON.tweets, data.responseJSON.user.likes)
+        })
       })
     })
   }
   login()
+
+  $('.login-btn').click(() => {
+    $('.login.popup').slideToggle()
+  })
+  $('.reg-btn').click(() => {
+    $('.registration.popup').slideToggle()
+  })
+  $('.logout-btn').click(() => {
+    $.ajax(`/tweets/logout`, {
+      method: 'POST'
+    })
+  })
 })

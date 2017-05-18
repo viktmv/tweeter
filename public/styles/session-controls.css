@@ -1,0 +1,16 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 30%;
+  width: 40%;
+  text-align: center;
+  margin: 0 auto;
+
+  /*margin-top: 100px;*/
+}
+
+.popup input {
+  width: 150px;
+  display: block;
+  margin: 0 auto;
+}

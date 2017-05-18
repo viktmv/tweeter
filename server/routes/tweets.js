@@ -4,6 +4,7 @@ const express = require('express')
 const tweetsRoutes = express.Router()
 const userHelper = require('../lib/util/user-helper')
 
+
 module.exports = function (DataHelpers) {
 
   tweetsRoutes.post('/:id/like', function (req, res) {
@@ -25,7 +26,7 @@ module.exports = function (DataHelpers) {
       } else {
         req.session.userID
         ? DataHelpers.getUser(req.session.userID, (err, user) => {
-            if (!user) return console.log('some shit happend')
+            if (!user) return console.log('something happend')
             res.send({tweets, user})
           })
         : res.send({tweets: tweets, user: null})
@@ -40,6 +41,12 @@ module.exports = function (DataHelpers) {
       req.session.userID = req.body.handle
       res.status(200).send(user)
     })
+  })
+
+  tweetsRoutes.post('/logout', (req, res) => {
+    req.session = null
+    res.clearCookie('userID')
+    res.status(301).redirect('http://localhost:8080/')
   })
 
   tweetsRoutes.post('/', function (req, res) {
