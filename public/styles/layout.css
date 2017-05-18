@@ -75,7 +75,10 @@ main.container {
   padding: 15px 15px;
   font-size: 1.2em;
   line-height: 3em;
-  word-break: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  overflow: hidden;
 }
 .tweet footer {
   height: 10%;
