@@ -1,5 +1,6 @@
 'use strict'
 
+const bcrypt = require('bcrypt')
 const express = require('express')
 const tweetsRoutes = express.Router()
 const userHelper = require('../lib/util/user-helper')
@@ -44,7 +45,9 @@ module.exports = function (DataHelpers) {
   tweetsRoutes.post('/login', (req, res) => {
     DataHelpers.getUser(req.body.handle, (err, user) => {
       if (!user) return res.status(404).send('No user found')
-      if (!(user.password == req.body.pass)) return res.status(403).send('Password is incorrect')
+      if (!bcrypt.compareSync(req.body.pass, user.password)) {
+        return res.status(403).send('Password is incorrect')
+      }
 
       console.log('cookies set')
       req.session.userID = req.body.handle
@@ -57,7 +60,7 @@ module.exports = function (DataHelpers) {
     let user = {
       name: req.body.name,
       handle: `@${req.body.handle}`,
-      password: req.body.pass,
+      password: bcrypt.hashSync(req.body.pass, 10),
       avatars: userHelper.generateRandomUser(),
     }
 

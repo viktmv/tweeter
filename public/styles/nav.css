@@ -24,6 +24,8 @@
   align-self: center;
   font-size: 2em;
 }
+
+/* session-control styles */
 #nav-bar .session-control button {
   margin: 0;
   margin-right: 10px;
@@ -42,4 +44,50 @@
 
 #nav-bar .session-control button:hover {
   opacity: 1;
+}
+
+.session-control {
+  display: flex;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 78px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+.popup input {
+  width: 150px;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.popup section {
+  margin: 0 auto;
+  background-color: #fff;
+  width: 60%;
+  padding: 10px;
+  border: 2px solid #00a087;
+  border-radius: 0 0 25px 25px;
+  box-shadow: 0 3px 10px 0 #777;
+
+}
+.popup button {
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.logout-btn {
+  display: none;
+}
+
+.compose {
+  display: none;
 }
