@@ -43,14 +43,15 @@ module.exports = function (DataHelpers) {
   })
 
   tweetsRoutes.post('/login', (req, res) => {
-    DataHelpers.getUser(req.body.handle, (err, user) => {
+    let handle = `@${req.body.handle}`
+    DataHelpers.getUser(handle, (err, user) => {
       if (!user) return res.status(404).send('No user found')
       if (!bcrypt.compareSync(req.body.pass, user.password)) {
         return res.status(403).send('Password is incorrect')
       }
 
       console.log('cookies set')
-      req.session.userID = req.body.handle
+      req.session.userID = handle
       res.status(200).send(req.session.userID)
     })
   })
