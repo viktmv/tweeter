@@ -26,7 +26,7 @@ $(function () {
     // </header>
     // <main class="tweet-text"><"${tweet.content.text}"</main>
     // <footer>
-    //   <div class="tweet-age">${daysAgo(tweet.created_at)}</div>
+    //   <div class="tweet-age">${timeAgo(tweet.created_at)}</div>
     //   <div class="interactions">
     //     <button type="button" class="like" data-id="${tweet.id}" data-type:"${}">
     //   </div>
@@ -45,7 +45,7 @@ $(function () {
     let $main = $('<main>').addClass('tweet-text').text(tweet.content.text)
     let $footer = $('<footer>')
 
-    let day = daysAgo(tweet.created_at)
+    let day = timeAgo(tweet.created_at)
     let $tweetAge = $('<div>').addClass('tweet-age').text(day)
 
     let $interactions = $('<div>').addClass('interactions')
@@ -72,7 +72,7 @@ $(function () {
 
   // Handle the display of when the tweet was created
   // TODO: separate in a separate module
-  function daysAgo (date) {
+  function timeAgo (date) {
     let pastDate = new Date(date)
     let now = Date.now()
 
@@ -201,7 +201,7 @@ $(function () {
         pass: $('.login-pass').val()
       }
 
-      $.ajax('/tweets/login', {
+      $.ajax('/login', {
         data: data,
         method: 'POST'
       }).done((user) => {
@@ -256,7 +256,7 @@ $(function () {
 
   // logout
   $('.logout-btn').click(() => {
-    $.ajax(`/tweets/logout`, {
+    $.ajax(`/logout`, {
       method: 'POST'
     }).done(() => {
       loggedUser = null
@@ -274,11 +274,11 @@ $(function () {
        pass: $('.registration-pass').val()
      }
      console.log(data)
-    $.post(`/tweets/register`, data).done(added => {
+    $.post(`/register`, data).done(added => {
       if (added) {
         // $('.login-btn').slideUp()
         // $('.login.popup').slideUp()
-        $('.reg-btn').slideUp()
+        // $('.reg-btn').slideUp()
         $('.registration.popup').slideUp()
       }
     })
