@@ -8,14 +8,21 @@ const userHelper = require('../lib/util/user-helper')
 module.exports = function (DataHelpers) {
 
   tweetsRoutes.post('/:id/like', function (req, res) {
-    console.log(req.body.tweetID)
-    console.log(req.session)
+    if (!req.body.user)  {
+      console.log('no user')
+      return res.sendStatus(403)
+    }
+
     DataHelpers.likeTweet({ id: req.body.tweetID, user: req.session.userID },
       () => console.log('Counter incremented'))
     res.sendStatus(201)
   })
 
   tweetsRoutes.delete('/:id/like', function (req, res) {
+    if (!req.body.user)  {
+      console.log('no user')
+      return res.sendStatus(403)
+    }
     DataHelpers.dislikeTweet({ id: req.body.tweetID, user: req.session.userID },
       () => console.log('Counter decremented'))
     res.sendStatus(201)
@@ -27,10 +34,7 @@ module.exports = function (DataHelpers) {
         res.status(500).json({ error: err.message })
       } else {
         if (req.session.userID) {
-          DataHelpers.getUser(req.session.userID, (err, user) => {
-            if (!user) return console.log('something happend')
-            res.send({tweets, user})
-          })
+            res.send({tweets, user: req.session.userID})
         }
         else res.send({tweets: tweets, user: null})
       }
@@ -46,7 +50,7 @@ module.exports = function (DataHelpers) {
 
       console.log('cookies set')
       req.session.userID = req.body.handle
-      res.status(200).send(user)
+      res.status(200).send(req.session.userID)
     })
   })
 
@@ -80,6 +84,7 @@ module.exports = function (DataHelpers) {
     const handle = req.session.userID ? req.session.userID : userHelper.generateRandomUser()
 
     DataHelpers.getUser(handle, (err, user) => {
+      if (err) return console.error(err)
       const tweet = {
         id: generateRandomString(),
         user: user,
@@ -87,7 +92,8 @@ module.exports = function (DataHelpers) {
           text: req.body.text
         },
         created_at: Date.now(),
-        counter: 0
+        counter: 0,
+        liked: []
       }
       DataHelpers.saveTweet(tweet, (err) => {
         if (err) {

@@ -1,11 +1,14 @@
 $(function () {
   'use strict'
 
-  function renderTweets (tweets, likes) {
+  function renderTweets (tweets, likes, user) {
     let tweetContainer = $('.tweets')
     let elems = []
+    let handle = user ? user.handle : ''
+    console.log(user)
+    console.log(tweets.liked)
     for (let tweet of tweets) {
-      likes.find((t) => t == tweet.id)
+      tweet.liked.find((u) => u == handle)
         ? elems.unshift(createTweetElement(tweet, true))
         : elems.unshift(createTweetElement(tweet, false))
     }
@@ -13,7 +16,6 @@ $(function () {
   }
 
   function createTweetElement (tweet, liked) {
-    console.log(liked)
     let $tweet = $('<article>').addClass('tweet')
     let $header = $('<header>')
     let {user} = tweet
@@ -97,7 +99,6 @@ $(function () {
     }).done(() => {
       loadTweets().complete(data => {
         $('.new-tweet textarea').val('').focus()
-        console.log(data)
         let list = data.responseJSON.tweets
         $('.tweets').prepend(createTweetElement(list[list.length - 1]))
         // toggleLike()
@@ -116,7 +117,7 @@ $(function () {
     console.log(data.user)
     data.user === null
      ? renderTweets(data.tweets, [])
-     : renderTweets(data.tweets, data.user.likes)
+     : renderTweets(data.tweets, data.user.likes, data.user)
   })
 
   // Compose button
@@ -179,7 +180,7 @@ $(function () {
       }).done((user) => {
         loadTweets().complete(data => {
           $('.tweets').text('')
-          renderTweets(data.responseJSON.tweets, data.responseJSON.user.likes)
+          renderTweets(data.responseJSON.tweets, data.responseJSON.user.likes, data.responseJSON.user)
         })
       })
     })

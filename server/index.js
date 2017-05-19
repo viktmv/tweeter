@@ -1,23 +1,27 @@
 'use strict'
 
 const PORT = 8080
+const morgan = require('morgan')
 const express = require('express')
 const bodyParser = require('body-parser')
-const app = express()
-
 const cookieSession = require('cookie-session')
 
+
+const {MongoClient} = require('mongodb')
+const MONGODB_URI = 'mongodb://localhost:27017/tweets'
+
+// basic app set-up
+const app = express()
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('public'))
+app.use(morgan('dev'))
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
 }))
 
-const {MongoClient} = require('mongodb')
-const MONGODB_URI = 'mongodb://localhost:27017/tweets'
-
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static('public'))
-
+// Mongo
 MongoClient.connect(MONGODB_URI, (err, db) => {
   if (err) return console.error(`Failed to connect: ${MONGODB_URI}`)
 

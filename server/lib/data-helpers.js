@@ -29,24 +29,22 @@ module.exports = function makeDataHelpers (db) {
     },
 
     likeTweet: function (data, callback) {
-            console.log(data)
       db.collection('tweets').updateOne(
         { id: data.id },
-        { $inc: {counter: 1 } }
+        { $push: {liked: data.user } }
       , callback)
 
 
       db.collection('users').updateOne(
         { handle: data.user},
-        { $push: {likes: data.id} }
+        { $push: {liked: data.id} }
       )
     },
 
     dislikeTweet: function (data, callback) {
-      console.log(data)
       db.collection('tweets').updateOne(
         { id: data.id },
-        { $inc: {counter: -1 } }
+        { $pull: {liked: data.user} }
       , callback)
 
       db.collection('users').updateOne(
