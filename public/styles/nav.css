@@ -28,6 +28,7 @@
   margin: 0;
   margin-right: 10px;
   padding: 5px;
+  display: none;
   width: 75px;
   height: 50%;
   opacity: .8;

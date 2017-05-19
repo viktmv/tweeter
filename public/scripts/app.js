@@ -209,11 +209,11 @@ $(function () {
           $('.tweets').text('')
           loggedUser = data.responseJSON.user
           if (user) {
-            $('.login-btn').slideUp()
-            $('.login.popup').slideUp()
-            $('.reg-btn').slideUp()
-            $('.logout-btn').slideDown()
-            $('.compose').slideDown()
+            $('.login-btn').hide()
+            $('.login.popup').hide()
+            $('.reg-btn').hide()
+            $('.logout-btn').show()
+            $('.compose').show()
           }
           renderTweets(data.responseJSON.tweets, loggedUser)
         })
@@ -227,23 +227,22 @@ $(function () {
   // initial button state
 
   function initBtns() {
-    if (loggedUser) {
-      $('.logout-btn').slideDown()
-      $('.compose').slideDown()
+    if (!loggedUser) {
+      $('.logout-btn').hide()
+      $('.compose').hide()
 
-      $('.reg-btn').slideUp()
-      $('.login-btn').slideUp()
+      $('.reg-btn').show()
+      $('.login-btn').show()
 
     }
     else {
-      $('.reg-btn').slideDown()
-      $('.login-btn').slideDown()
+      $('.reg-btn').hide()
+      $('.login-btn').hide()
 
-      $('.logout-btn').slideUp()
-      $('.compose').slideUp()
+      $('.logout-btn').show()
+      $('.compose').show()
     }
   }
-
 
   // Toggle session forms
   $('.login-btn').click(() => {
@@ -253,7 +252,6 @@ $(function () {
   $('.reg-btn').click(() => {
     $('.registration.popup').slideToggle()
     $('.login.popup').slideUp()
-    $('.compose').slideDown()
   })
 
   // logout
@@ -262,10 +260,7 @@ $(function () {
       method: 'POST'
     }).done(() => {
       loggedUser = null
-      $('.logout-btn').slideUp()
-      $('.compose').slideUp()
-      $('.reg-btn').slideDown()
-      $('.login-btn').slideDown()
+      window.location = '/'
     })
   })
 
