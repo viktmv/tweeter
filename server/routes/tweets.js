@@ -62,8 +62,12 @@ module.exports = function (DataHelpers) {
     }
 
     console.log(req.body.handle, 'added to DB')
-     DataHelpers.saveUser(user, () => console.log('Addition successfull'))
-     res.sendStatus(200)
+     DataHelpers.saveUser(user, (err, added) => {
+       if (added) {
+         console.log('Addition successfull')
+         res.status(200).send(true)
+       }
+     })
   })
 
   // handler for logout

@@ -10,6 +10,7 @@
   display: flex;
   justify-content: space-between;
   z-index: 1;
+  box-shadow: 0 2px 10px 0 #999;
 }
 #nav-bar .wrapper {
   display: flex;
@@ -23,10 +24,11 @@
   align-self: center;
   font-size: 2em;
 }
-#nav-bar .compose {
+#nav-bar .session-control button {
   margin: 0;
   margin-right: 10px;
   padding: 5px;
+  width: 75px;
   height: 50%;
   opacity: .8;
   font-size: 1em;
@@ -34,8 +36,9 @@
   align-self: center;
   border-radius: 2px;
   border: 1px solid #fff;
+  outline: none;
 }
 
-#nav-bar .compose:hover {
+#nav-bar .session-control button:hover {
   opacity: 1;
 }

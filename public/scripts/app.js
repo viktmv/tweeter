@@ -135,7 +135,10 @@ $(function () {
     loggedUser === null
      ? renderTweets(data.tweets, '')
      : renderTweets(data.tweets, loggedUser)
+
+     initBtns()
   })
+
 
   // Compose button
   $('.compose').on('click', function() {
@@ -191,7 +194,7 @@ $(function () {
   function login() {
     $('.login.popup form').on('submit', function (e) {
       e.preventDefault()
-      // $('.login.popup button').prop('disabled', true)
+
       $('.compose').prop('disabled', false)
       let data = {
         handle: $('.login-handle').val(),
@@ -205,6 +208,13 @@ $(function () {
         loadTweets().complete(data => {
           $('.tweets').text('')
           loggedUser = data.responseJSON.user
+          if (user) {
+            $('.login-btn').slideUp()
+            $('.login.popup').slideUp()
+            $('.reg-btn').slideUp()
+            $('.logout-btn').slideDown()
+            $('.compose').slideDown()
+          }
           renderTweets(data.responseJSON.tweets, loggedUser)
         })
       })
@@ -214,19 +224,49 @@ $(function () {
   // init login fn -> set listeners
   login()
 
+  // initial button state
+
+  function initBtns() {
+    if (loggedUser) {
+      $('.logout-btn').slideDown()
+      $('.compose').slideDown()
+
+      $('.reg-btn').slideUp()
+      $('.login-btn').slideUp()
+
+    }
+    else {
+      $('.reg-btn').slideDown()
+      $('.login-btn').slideDown()
+
+      $('.logout-btn').slideUp()
+      $('.compose').slideUp()
+    }
+  }
+
+
   // Toggle session forms
   $('.login-btn').click(() => {
     $('.login.popup').slideToggle()
+    $('.registration.popup').slideUp()
   })
   $('.reg-btn').click(() => {
     $('.registration.popup').slideToggle()
+    $('.login.popup').slideUp()
+    $('.compose').slideDown()
   })
 
   // logout
   $('.logout-btn').click(() => {
     $.ajax(`/tweets/logout`, {
       method: 'POST'
-    }).done(() => loggedUser = null)
+    }).done(() => {
+      loggedUser = null
+      $('.logout-btn').slideUp()
+      $('.compose').slideUp()
+      $('.reg-btn').slideDown()
+      $('.login-btn').slideDown()
+    })
   })
 
   // Register req
@@ -239,6 +279,13 @@ $(function () {
        pass: $('.registration-pass').val()
      }
      console.log(data)
-    $.post(`/tweets/register`, data)
+    $.post(`/tweets/register`, data).done(added => {
+      if (added) {
+        // $('.login-btn').slideUp()
+        // $('.login.popup').slideUp()
+        $('.reg-btn').slideUp()
+        $('.registration.popup').slideUp()
+      }
+    })
   })
 })
