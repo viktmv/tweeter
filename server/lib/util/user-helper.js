@@ -34,11 +34,6 @@ module.exports = {
       large: `${avatarUrlPrefix}_200.png`
     }
 
-    return {
-      name: userName,
-      handle: userHandle,
-      avatars: avatars,
-      likes: []
-    }
+    return avatars
   }
 }

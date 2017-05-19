@@ -1,14 +1,15 @@
 $(function () {
   'use strict'
 
-  function renderTweets (tweets, likes, user) {
+  let loggedUser
+
+  function renderTweets (tweets, user) {
     let tweetContainer = $('.tweets')
     let elems = []
-    let handle = user ? user.handle : ''
-    console.log(user)
-    console.log(tweets.liked)
+    let handle = user ? user : ''
+
     for (let tweet of tweets) {
-      tweet.liked.find((u) => u == handle)
+      tweet.likedBy.find((u) => u == handle)
         ? elems.unshift(createTweetElement(tweet, true))
         : elems.unshift(createTweetElement(tweet, false))
     }
@@ -16,6 +17,22 @@ $(function () {
   }
 
   function createTweetElement (tweet, liked) {
+    // `
+    // <article class='tweet'>
+    // <header>
+    //   <img class="avatar" src="${user.avatars.regular}">
+    //   <span class="user-name">"${user.name}"</span>
+    //   <span class="handle">"${user.handle}"</span>
+    // </header>
+    // <main class="tweet-text"><"${tweet.content.text}"</main>
+    // <footer>
+    //   <div class="tweet-age">${daysAgo(tweet.created_at)}</div>
+    //   <div class="interactions">
+    //     <button type="button" class="like" data-id="${tweet.id}" data-type:"${}">
+    //   </div>
+    // </footer>
+    //
+    // `
     let $tweet = $('<article>').addClass('tweet')
     let $header = $('<header>')
     let {user} = tweet
@@ -114,14 +131,18 @@ $(function () {
   // Initial render
   loadTweets().complete(data => {
     data = data.responseJSON
-    console.log(data.user)
-    data.user === null
-     ? renderTweets(data.tweets, [])
-     : renderTweets(data.tweets, data.user.likes, data.user)
+    loggedUser = data.user
+    loggedUser === null
+     ? renderTweets(data.tweets, '')
+     : renderTweets(data.tweets, loggedUser)
   })
 
   // Compose button
-  $('.compose').on('click', () => {
+  $('.compose').on('click', function() {
+
+    if (!loggedUser) return this.disabled = true
+    this.disabled = false
+
     $('.new-tweet').slideToggle(() => $('.new-tweet textarea').focus())
   })
 
@@ -138,6 +159,8 @@ $(function () {
   })
 
   function toggleLike(e) {
+    if (!loggedUser) return console.log(loggedUser, 'user not logged in')
+
     let like = $(this)
     let id = like.data('id')
 
@@ -169,6 +192,7 @@ $(function () {
     $('.login.popup form').on('submit', function (e) {
       e.preventDefault()
       // $('.login.popup button').prop('disabled', true)
+      $('.compose').prop('disabled', false)
       let data = {
         handle: $('.login-handle').val(),
         pass: $('.login-pass').val()
@@ -180,25 +204,32 @@ $(function () {
       }).done((user) => {
         loadTweets().complete(data => {
           $('.tweets').text('')
-          renderTweets(data.responseJSON.tweets, data.responseJSON.user.likes, data.responseJSON.user)
+          loggedUser = data.responseJSON.user
+          renderTweets(data.responseJSON.tweets, loggedUser)
         })
       })
     })
   }
+
+  // init login fn -> set listeners
   login()
 
+  // Toggle session forms
   $('.login-btn').click(() => {
     $('.login.popup').slideToggle()
   })
   $('.reg-btn').click(() => {
     $('.registration.popup').slideToggle()
   })
+
+  // logout
   $('.logout-btn').click(() => {
     $.ajax(`/tweets/logout`, {
       method: 'POST'
-    })
+    }).done(() => loggedUser = null)
   })
 
+  // Register req
   $('.register').on('submit', function(e) {
     e.preventDefault()
     console.log(e)

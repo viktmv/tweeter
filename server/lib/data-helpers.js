@@ -31,20 +31,20 @@ module.exports = function makeDataHelpers (db) {
     likeTweet: function (data, callback) {
       db.collection('tweets').updateOne(
         { id: data.id },
-        { $push: {liked: data.user } }
+        { $push: {likedBy: data.user } }
       , callback)
 
 
       db.collection('users').updateOne(
         { handle: data.user},
-        { $push: {liked: data.id} }
+        { $push: {likes: data.id} }
       )
     },
 
     dislikeTweet: function (data, callback) {
       db.collection('tweets').updateOne(
         { id: data.id },
-        { $pull: {liked: data.user} }
+        { $pull: {likedBy: data.user} }
       , callback)
 
       db.collection('users').updateOne(
@@ -58,9 +58,6 @@ module.exports = function makeDataHelpers (db) {
       // callback(null, true)
     },
 
-    updateUser: function(user, params, callback) {
-
-    },
 
     getUser: function(handle, callback) {
        db.collection('users').find({ handle: handle })

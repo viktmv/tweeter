@@ -8,7 +8,7 @@ const userHelper = require('../lib/util/user-helper')
 module.exports = function (DataHelpers) {
 
   tweetsRoutes.post('/:id/like', function (req, res) {
-    if (!req.body.user)  {
+    if (!req.session.userID)  {
       console.log('no user')
       return res.sendStatus(403)
     }
@@ -19,7 +19,7 @@ module.exports = function (DataHelpers) {
   })
 
   tweetsRoutes.delete('/:id/like', function (req, res) {
-    if (!req.body.user)  {
+    if (!req.session.userID)  {
       console.log('no user')
       return res.sendStatus(403)
     }
@@ -42,11 +42,9 @@ module.exports = function (DataHelpers) {
   })
 
   tweetsRoutes.post('/login', (req, res) => {
-    console.log('request arrived')
     DataHelpers.getUser(req.body.handle, (err, user) => {
-      if (!user) return res.status(403).send('No user found')
-
-      if (!(user.password == req.body.pass)) return res.status(403)
+      if (!user) return res.status(404).send('No user found')
+      if (!(user.password == req.body.pass)) return res.status(403).send('Password is incorrect')
 
       console.log('cookies set')
       req.session.userID = req.body.handle
@@ -54,34 +52,39 @@ module.exports = function (DataHelpers) {
     })
   })
 
+  // handler for registration
   tweetsRoutes.post('/register', (req, res) => {
     let user = {
       name: req.body.name,
-      handle: req.body.handle,
+      handle: `@${req.body.handle}`,
       password: req.body.pass,
-      avatars: {},
-      likes: []
+      avatars: userHelper.generateRandomUser(),
     }
-    console.log(req.body.handle + 'added to DB')
+
+    console.log(req.body.handle, 'added to DB')
      DataHelpers.saveUser(user, () => console.log('Addition successfull'))
      res.sendStatus(200)
   })
 
+  // handler for logout
   tweetsRoutes.post('/logout', (req, res) => {
     req.session = null
     res.clearCookie('userID')
-    res.status(301).redirect('http://localhost:8080/')
+    res.status(301).redirect('/')
   })
 
+  // create new tweet
   tweetsRoutes.post('/', function (req, res) {
     if (!req.body.text) {
       res.status(400).json({ error: 'invalid request: no data in POST body' })
       return
     }
 
+    if (!req.session.userID) res.status(403).send('Forbidden')
+
     const generateRandomString = () => Math.random().toString(36).substring(2, 8)
 
-    const handle = req.session.userID ? req.session.userID : userHelper.generateRandomUser()
+    const handle = req.session.userID
 
     DataHelpers.getUser(handle, (err, user) => {
       if (err) return console.error(err)
@@ -92,8 +95,7 @@ module.exports = function (DataHelpers) {
           text: req.body.text
         },
         created_at: Date.now(),
-        counter: 0,
-        liked: []
+        likedBy: []
       }
       DataHelpers.saveTweet(tweet, (err) => {
         if (err) {
