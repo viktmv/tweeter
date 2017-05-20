@@ -1,5 +1,7 @@
 'use strict'
 
+require('dotenv').config();
+
 const PORT = 8080
 const morgan = require('morgan')
 const express = require('express')
@@ -7,7 +9,7 @@ const bodyParser = require('body-parser')
 const cookieSession = require('cookie-session')
 
 const {MongoClient} = require('mongodb')
-const MONGODB_URI = 'mongodb://localhost:27017/tweets'
+const MONGODB_URI = process.env.MONGODB_URI
 
 // basic app set-up
 const app = express()
