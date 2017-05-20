@@ -4,9 +4,12 @@ Tweeter is a simple, single-page Twitter clone.
 
 ## Final Product
 
-!["/urls page"]()
-!["login page"]()
-!["edit/update url page"]()
+!["Initial state"](https://github.com/viktmv/tweeter/tree/master/docs/no-tweet-notlogged.png)
+!["registration"](https://github.com/viktmv/tweeter/tree/master/docshttps://github.com/viktmv/tweeter/tree/master/docs/registration.png)
+!["Initial state with logged user"](https://github.com/viktmv/tweeter/tree/master/docs/no-tweets-logged.png)
+!["first tweet"](https://github.com/viktmv/tweeter/tree/master/docs/first-tweet.png)
+!["general view"](https://github.com/viktmv/tweeter/tree/master/docs/generalview.png)
+
 
 ## Dependencies
 
