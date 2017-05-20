@@ -2,7 +2,6 @@
 
 const PORT = 8080
 const morgan = require('morgan')
-const bcrypt = require('bcrypt')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieSession = require('cookie-session')

@@ -7,7 +7,7 @@ module.exports = function (DataHelpers) {
 
   // Handle like request
   tweetsRoutes.post('/:id/like', function (req, res) {
-    if (!req.session.userID)  {
+    if (!req.session.userID) {
       console.warn('No user found')
       return res.sendStatus(403)
     }
@@ -16,12 +16,12 @@ module.exports = function (DataHelpers) {
       err => {
         if (err) return res.sendStatus(500)
         res.sendStatus(201)
-     })
+      })
   })
 
   // Handle dislike request
   tweetsRoutes.delete('/:id/like', function (req, res) {
-    if (!req.session.userID)  {
+    if (!req.session.userID) {
       console.warn('No registered user')
       return res.sendStatus(403)
     }
@@ -29,7 +29,7 @@ module.exports = function (DataHelpers) {
       err => {
         if (err) return res.sendStatus(500)
         res.sendStatus(201)
-     })
+      })
   })
 
   // Get index page
@@ -39,7 +39,7 @@ module.exports = function (DataHelpers) {
         res.status(500).json({ error: err.message })
       } else {
         if (req.session.userID) {
-            res.send({tweets, user: req.session.userID})
+          res.send({tweets, user: req.session.userID})
         }
         else res.send({tweets: tweets, user: null})
       }

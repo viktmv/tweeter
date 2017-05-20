@@ -84,7 +84,7 @@ $(function () {
       , hourDiff = hoursNow - hoursPast
 
     if (minDiff < 60) {
-      time = minDiff <= 1 ? `just now` : `${minDiff} minutes ago`
+      time = minDiff <= 1 ? 'just now' : `${minDiff} minutes ago`
     }
     else if (hourDiff < 60) {
       time = hourDiff === 1 ? `${hourDiff } hour ago` : `${hourDiff } hours ago`
@@ -126,10 +126,10 @@ $(function () {
     data = data.responseJSON
     loggedUser = data.user
     loggedUser === null
-     ? renderTweets(data.tweets, '')
-     : renderTweets(data.tweets, loggedUser)
+      ? renderTweets(data.tweets, '')
+      : renderTweets(data.tweets, loggedUser)
 
-     initBtns()
+    initBtns()
   })
 
   // Send tweet and render it on the page
@@ -144,7 +144,6 @@ $(function () {
       loadTweets().complete(data => {
         $('.new-tweet textarea').val('').focus()
         let list = data.responseJSON.tweets
-        console.log($('.no-tweets-notice'))
         let tweetContainer = $('.tweets')
         $('.no-tweets-notice').remove()
         $('.counter').text('140')
@@ -174,7 +173,7 @@ $(function () {
   })
 
   // function for like and dislike requests
-  function toggleLike(e) {
+  function toggleLike() {
     if (!loggedUser) return
 
     let like = $(this)
@@ -249,7 +248,7 @@ $(function () {
 
   // logout
   $('.logout-btn').click(() => {
-    $.ajax(`/logout`, {
+    $.ajax('/logout', {
       method: 'POST'
     }).done(() => {
       loggedUser = null
@@ -260,12 +259,12 @@ $(function () {
   // Register request
   $('.register').on('submit', function(e) {
     e.preventDefault()
-     let data = {
-       name: $('.registration-name').val(),
-       handle: $('.registration-handle').val(),
-       pass: $('.registration-pass').val()
-     }
-    $.post(`/register`, data).done(added => {
+    let data = {
+      name: $('.registration-name').val(),
+      handle: $('.registration-handle').val(),
+      pass: $('.registration-pass').val()
+    }
+    $.post('/register', data).done(added => {
       login(data)
       if (added) {
         $('.registration.popup').slideUp()

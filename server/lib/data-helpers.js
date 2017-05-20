@@ -60,7 +60,7 @@ module.exports = function makeDataHelpers (db) {
 
     // Retrieve user from DB
     getUser: function(handle, callback) {
-       db.collection('users').find({ handle: handle })
+      db.collection('users').find({ handle: handle })
        .toArray((err, res) => {
          if (err) return console.error(err)
          callback(null, res[0])
