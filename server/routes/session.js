@@ -3,7 +3,6 @@ const express = require('express')
 const sessionRoutes = express.Router()
 const userHelper = require('../lib/util/user-helper')
 
-
 module.exports = function (DataHelpers) {
 
   // handler for registration
@@ -35,8 +34,6 @@ module.exports = function (DataHelpers) {
       if (!bcrypt.compareSync(req.body.pass, user.password)) {
         return res.status(403).send('Password is incorrect')
       }
-
-      console.log('cookies set')
       req.session.userID = handle
       res.status(200).send(req.session.userID)
     })

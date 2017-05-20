@@ -30,7 +30,6 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
   // init routes
   const DataHelpers = require('./lib/data-helpers.js')(db)
   const tweetsRoutes = require('./routes/tweets')(DataHelpers)
-
   const sessionRoutes = require('./routes/session')(DataHelpers)
 
   app.use('/', sessionRoutes)

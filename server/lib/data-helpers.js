@@ -1,9 +1,7 @@
 'use strict'
 
-// Simulates the kind of delay we see with network or filesystem operations
-// const simulateDelay = require("./util/simulate-delay")
-
-// Defines helper functions for saving and getting tweets, using the database `db`
+// Defines helper functions for saving,
+// getting tweets, and other interactions with DB
 module.exports = function makeDataHelpers (db) {
   return {
 
@@ -28,12 +26,12 @@ module.exports = function makeDataHelpers (db) {
       })
     },
 
+    // Handle like and update DB
     likeTweet: function (data, callback) {
       db.collection('tweets').updateOne(
         { id: data.id },
         { $push: {likedBy: data.user } }
       , callback)
-
 
       db.collection('users').updateOne(
         { handle: data.user},
@@ -41,6 +39,7 @@ module.exports = function makeDataHelpers (db) {
       )
     },
 
+    // Handle dislike and update DB
     dislikeTweet: function (data, callback) {
       db.collection('tweets').updateOne(
         { id: data.id },
@@ -50,15 +49,16 @@ module.exports = function makeDataHelpers (db) {
       db.collection('users').updateOne(
         { handle: data.user},
         { $pull: {likes: data.id} }
-      , () => console.log('like removd'))
+      )
     },
 
+    // Save user to DB
     saveUser: function(user, callback) {
       db.collection('users').insertOne(user)
       callback(null, true)
     },
 
-
+    // Retrieve user from DB
     getUser: function(handle, callback) {
        db.collection('users').find({ handle: handle })
        .toArray((err, res) => {

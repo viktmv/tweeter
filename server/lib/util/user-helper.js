@@ -7,6 +7,7 @@ const md5 = require('md5')
 
 module.exports = {
 
+  // the function now only returns avatars
   generateRandomUser: () => {
     const gender = chance.gender()
     const firstName = chance.first({gender: gender})

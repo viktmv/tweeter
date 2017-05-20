@@ -1,13 +1,25 @@
 $(function () {
   'use strict'
 
+  // Global user variable for handling session state
   let loggedUser
 
+  // tweet rendering fn
   function renderTweets (tweets, user) {
     let tweetContainer = $('.tweets')
     let elems = []
     let handle = user ? user : ''
 
+    if (!tweets.length)
+      return tweetContainer.html(`
+        <span class="no-tweets-notice"
+          style="text-align: center;
+          display: block;
+          font-style: italic;">
+          So far there\'s no tweets to display
+        </span>`
+        )
+    // tweetContainer.remove('.no-tweets-notice')
     for (let tweet of tweets) {
       tweet.likedBy.find((u) => u == handle)
         ? elems.unshift(createTweetElement(tweet, true))
@@ -16,23 +28,8 @@ $(function () {
     tweetContainer.append(elems)
   }
 
+  // Creates tweet HTML from given data
   function createTweetElement (tweet, liked) {
-    // `
-    // <article class='tweet'>
-    // <header>
-    //   <img class="avatar" src="${user.avatars.regular}">
-    //   <span class="user-name">"${user.name}"</span>
-    //   <span class="handle">"${user.handle}"</span>
-    // </header>
-    // <main class="tweet-text"><"${tweet.content.text}"</main>
-    // <footer>
-    //   <div class="tweet-age">${timeAgo(tweet.created_at)}</div>
-    //   <div class="interactions">
-    //     <button type="button" class="like" data-id="${tweet.id}" data-type:"${}">
-    //   </div>
-    // </footer>
-    //
-    // `
     let $tweet = $('<article>').addClass('tweet')
     let $header = $('<header>')
     let {user} = tweet
@@ -58,11 +55,7 @@ $(function () {
     liked ? likeBtn.attr('data-type', 'active').attr('style', 'background-image: url("../images/like-active.svg");')
           : likeBtn.attr('data-type', 'inactive').attr('style', 'background-image: url("../images/like-inactive.svg");')
 
-    $interactions.append(
-      // $('<button>').attr('type', 'button').addClass('flag').text('🇨🇦'),
-      // $('<button>').attr('type', 'button').addClass('retweet').text('♻️'),
-      likeBtn
-    )
+    $interactions.append(likeBtn)
 
     $footer.append($tweetAge, $interactions)
     $tweet.append($header, $main, $footer)
@@ -70,8 +63,7 @@ $(function () {
     return $tweet
   }
 
-  // Handle the display of when the tweet was created
-  // TODO: separate in a separate module
+  // Handle the display of time when the tweet was created
   function timeAgo (date) {
     let pastDate = new Date(date)
     let now = Date.now()
@@ -105,23 +97,24 @@ $(function () {
     return time
   }
 
-  // Send tweet and render it on the page
-  $('.new-tweet form').on('submit', function (e) {
-    e.preventDefault()
+  // initial button state
+  function initBtns() {
+    if (!loggedUser) {
+      $('.logout-btn').hide()
+      $('.compose').hide()
 
-    let tweetText = $(this).serialize()
-    $.ajax('/tweets/', {
-      data: tweetText,
-      method: 'POST'
-    }).done(() => {
-      loadTweets().complete(data => {
-        $('.new-tweet textarea').val('').focus()
-        let list = data.responseJSON.tweets
-        $('.tweets').prepend(createTweetElement(list[list.length - 1]))
-        // toggleLike()
-      })
-    })
-  })
+      $('.reg-btn').show()
+      $('.login-btn').show()
+
+    }
+    else {
+      $('.reg-btn').hide()
+      $('.login-btn').hide()
+
+      $('.logout-btn').show()
+      $('.compose').show()
+    }
+  }
 
   // load tweets
   function loadTweets () {
@@ -139,10 +132,29 @@ $(function () {
      initBtns()
   })
 
+  // Send tweet and render it on the page
+  $('.new-tweet form').on('submit', function (e) {
+    e.preventDefault()
+
+    let tweetText = $(this).serialize()
+    $.ajax('/tweets/', {
+      data: tweetText,
+      method: 'POST'
+    }).done(() => {
+      loadTweets().complete(data => {
+        $('.new-tweet textarea').val('').focus()
+        let list = data.responseJSON.tweets
+        console.log($('.no-tweets-notice'))
+        let tweetContainer = $('.tweets')
+        $('.no-tweets-notice').remove()
+        $('.counter').text('140')
+        tweetContainer.prepend(createTweetElement(list[list.length - 1]))
+      })
+    })
+  })
 
   // Compose button
   $('.compose').on('click', function() {
-
     if (!loggedUser) return this.disabled = true
     this.disabled = false
 
@@ -161,8 +173,9 @@ $(function () {
     }
   })
 
+  // function for like and dislike requests
   function toggleLike(e) {
-    if (!loggedUser) return console.log(loggedUser, 'user not logged in')
+    if (!loggedUser) return
 
     let like = $(this)
     let id = like.data('id')
@@ -191,58 +204,38 @@ $(function () {
     }
   }
 
-  function login() {
-    $('.login.popup form').on('submit', function (e) {
-      e.preventDefault()
-
-      $('.compose').prop('disabled', false)
-      let data = {
-        handle: $('.login-handle').val(),
-        pass: $('.login-pass').val()
-      }
-
-      $.ajax('/login', {
-        data: data,
-        method: 'POST'
-      }).done((user) => {
-        loadTweets().complete(data => {
-          $('.tweets').text('')
-          loggedUser = data.responseJSON.user
-          if (user) {
-            $('.login-btn').hide()
-            $('.login.popup').hide()
-            $('.reg-btn').hide()
-            $('.logout-btn').show()
-            $('.compose').show()
-          }
-          renderTweets(data.responseJSON.tweets, loggedUser)
-        })
+  // user login fn
+  function login(data) {
+    $.ajax('/login', {
+      data: data,
+      method: 'POST'
+    }).done((user) => {
+      loadTweets().complete(data => {
+        $('.tweets').text('')
+        loggedUser = data.responseJSON.user
+        if (user) {
+          $('.login-btn').hide()
+          $('.login.popup').hide()
+          $('.reg-btn').hide()
+          $('.logout-btn').show()
+          $('.compose').show()
+        }
+        renderTweets(data.responseJSON.tweets, loggedUser)
       })
     })
   }
 
-  // init login fn -> set listeners
-  login()
+  //  Login request
+  $('.login.popup form').on('submit', function (e) {
+    e.preventDefault()
 
-  // initial button state
-
-  function initBtns() {
-    if (!loggedUser) {
-      $('.logout-btn').hide()
-      $('.compose').hide()
-
-      $('.reg-btn').show()
-      $('.login-btn').show()
-
+    $('.compose').prop('disabled', false)
+    let data = {
+      handle: $('.login-handle').val(),
+      pass: $('.login-pass').val()
     }
-    else {
-      $('.reg-btn').hide()
-      $('.login-btn').hide()
-
-      $('.logout-btn').show()
-      $('.compose').show()
-    }
-  }
+    login(data)
+  })
 
   // Toggle session forms
   $('.login-btn').click(() => {
@@ -260,25 +253,21 @@ $(function () {
       method: 'POST'
     }).done(() => {
       loggedUser = null
-      window.location = '/'
+      window.location.reload()
     })
   })
 
-  // Register req
+  // Register request
   $('.register').on('submit', function(e) {
     e.preventDefault()
-    console.log(e)
      let data = {
        name: $('.registration-name').val(),
        handle: $('.registration-handle').val(),
        pass: $('.registration-pass').val()
      }
-     console.log(data)
     $.post(`/register`, data).done(added => {
+      login(data)
       if (added) {
-        // $('.login-btn').slideUp()
-        // $('.login.popup').slideUp()
-        // $('.reg-btn').slideUp()
         $('.registration.popup').slideUp()
       }
     })
