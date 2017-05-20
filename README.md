@@ -6,7 +6,6 @@ Tweeter is a simple, single-page Twitter clone.
 
 !["Initial state"](/docs/no-tweet-notlogged.png)
 !["registration"](/docs/registration.png)
-!["Initial state with logged user"](/docs/no-tweets-logged.png)
 !["first tweet"](/docs/first-tweet.png)
 !["general view"](/docs/generalview.png)
 
