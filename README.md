@@ -21,9 +21,10 @@ Tweeter is a simple, single-page Twitter clone.
 - md5: ^2.1.0
 - mongodb: ^2.2.26
 - morgan: ^1.8.1
-
+- dotenv: ^4.0.0
 
 ## Getting Started
 
 - Install all dependencies (using the `npm install` command).
+- Specify the env variable for mongodb in .env file (if needed)
 - Run the development web server using the `npm run local` command.
