@@ -19,7 +19,7 @@ $(function () {
           So far there\'s no tweets to display
         </span>`
         )
-    // tweetContainer.remove('.no-tweets-notice')
+        
     for (let tweet of tweets) {
       tweet.likedBy.find((u) => u == handle)
         ? elems.unshift(createTweetElement(tweet, true))
