@@ -20,6 +20,7 @@ Tweeter is a simple, single-page Twitter clone.
 - cookie-session: ^2.0.0
 - md5: ^2.1.0
 - mongodb: ^2.2.26
+- morgan: ^1.8.1
 
 
 ## Getting Started
