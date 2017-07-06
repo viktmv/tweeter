@@ -2,6 +2,10 @@
 
 Tweeter is a simple, single-page Twitter clone.
 
+## Demo on Heroku
+
+* https://tweetr-project.herokuapp.com/
+
 ## Final Product
 
 !["Initial state"](/docs/no-tweet-notlogged.png)
@@ -23,7 +27,7 @@ Tweeter is a simple, single-page Twitter clone.
 - morgan: ^1.8.1
 - dotenv: ^4.0.0
 
-## Getting Started
+## Getting Started in Development
 
 - Install all dependencies (using the `npm install` command).
 - Specify the env variable for mongodb in .env file (if needed)
