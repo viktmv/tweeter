@@ -13,11 +13,21 @@ Tweeter is a simple, single-page Twitter clone.
 !["general view"](/docs/generalview.png)
 
 
-## Dependencies
+## Stack
 
+### Back-End
+- Node
+- Express
+- MongoDB
+
+### Front-End
+- HTML
+- CSS
+- JavaScript/jQuery
+
+## Dependencies
 - Node 5.10.x or above
 - express: ^4.13.4
-
 - bcrypt: ^1.0.2
 - body-parser: ^1.15.2
 - chance: ^1.0.2
